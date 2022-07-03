@@ -1,0 +1,20 @@
+# Get current work dir
+WORK_DIR=$(pwd)/PipeSwitch-main
+
+# Import global variables
+source $WORK_DIR/scripts/config/env.sh
+
+# Build the image bash, which compiles PyTorch from source
+echo 'Create docker image:' $DOCKER_IMAGE_MPS_TAG
+docker build \
+    --build-arg "HTTP_PROXY=http://10.112.75.44:2333/" \
+    --build-arg "HTTPS_PROXY=http://10.112.75.44:2333/" \
+    --build-arg "NO_PROXY=localhost,10.112.75.44,.example.com" \
+    -t $DOCKER_IMAGE_MPS_TAG -f $WORK_DIR/Dockerfile/Dockerfile-mps $WORK_DIR/Dockerfile \
+    --network host 
+
+# docker build -t $DOCKER_IMAGE_MPS_TAG -f $WORK_DIR/Dockerfile/Dockerfile-mps $WORK_DIR/Dockerfile
+
+    
+echo 'Complete creating docker image:' $DOCKER_IMAGE_MPS_TAG
+echo
