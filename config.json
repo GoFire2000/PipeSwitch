@@ -1,0 +1,94 @@
+{
+    "log": {
+        "access": "",
+        "error": "",
+        "loglevel": "error"
+    },
+    "inbounds": [
+        {
+            "tag": "socks-in",
+            "port": 4421,
+            "listen": "127.0.0.1",
+            "protocol": "socks",
+           "settings": {
+                "auth": "noauth",
+                "udp": true,
+                "ip": "127.0.0.1"
+            }
+        },
+        {
+            "tag": "http-in",
+            "port": 2333,
+            "listen": "0.0.0.0",
+            "protocol": "http"
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "download.cn.connecat.com",
+                        "port": 60009,
+                        "users": [
+                            {
+                                "email": "user@v2ray.com",
+                                "id": "f89cea05-7439-300d-a1cb-48ee963bc191",
+                                "alterId": 1,
+                                "security": "auto"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws",
+                "wsSettings": {
+                    "connectionReuse": true,
+                    "path": "/",
+                    "headers": {
+                        "Host": "download.skycn.com"
+                    }
+                }
+            },
+            "mux": {
+                "enabled": true
+            },
+            "tag": "proxy"
+        },
+        {
+            "protocol": "freedom",
+            "tag": "direct",
+            "settings": {
+                "domainStrategy": "UseIP"
+            }
+        }
+    ],
+    "dns": {
+        "servers": [
+            "1.0.0.1",
+            "localhost"
+        ]
+    },
+    "routing": {
+        "domainStrategy": "IPIfNonMatch",
+        "rules": [
+            {
+                "type": "field",
+                "ip": [
+                    "geoip:private",
+                    "geoip:cn"
+                ],
+                "outboundTag": "direct"
+            },
+            {
+                "type": "field",
+                "domain": [
+                    "geosite:cn"
+                ],
+                "outboundTag": "direct"
+            }
+        ]
+    }
+} 
