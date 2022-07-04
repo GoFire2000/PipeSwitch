@@ -2,11 +2,14 @@ import os
 
 class RunRemoteRepo:
     def __init__(self, server, branch):
+        branch = 'main'
         self.server = server
         self.branch = branch
 
     def __enter__(self):
-        os.system("ssh %s 'git clone --quiet --branch %s https://github.com/baizh1994/PipeSwitch.git'" % (self.server['id'], self.branch))
+        # os.system("ssh %s 'git clone --quiet --branch %s https://github.com/baizh1994/PipeSwitch.git'" % (self.server['id'], self.branch))
+        os.system("ssh %s 'git clone --quiet --branch %s https://github.com/GoFire2000/PipeSwitch.git'" % (self.server['id'], self.branch))
+        # self.run('git clone https://github.com/GoFire2000/PipeSwitch.git')
         return self
 
     def __exit__(self, *args, **kwargs):
